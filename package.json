@@ -6,11 +6,15 @@
   "dependencies": {
     "axios": "^0.24.0",
     "cron": "^1.8.2",
+    "dotenv": "^10.0.0",
     "node-telegram-bot-api": "^0.56.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
   "scripts": {
     "start": "node bmsBot.js",
+    "dev": "nodemon bmsBot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

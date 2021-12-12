@@ -1,10 +1,12 @@
+require('dotenv').config();
+
 const axios = require('axios');
 const fs = require('fs');
 const TelegramBot = require('node-telegram-bot-api');
 const CronJob = require('cron').CronJob;
 
 // replace the value below with the Telegram token you receive from @BotFather
-const token = "5006401968:AAH-NUgUlG9gzYNnZYKyJYNd2Hd8IJQSOqU"
+const token = process.env.TELEGRAM_API_TOKEN
 
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, { polling: true });
@@ -15,15 +17,16 @@ bot.on('message', (msg) => {
     const chatId = msg.chat.id;
     let data = fs.readFileSync('bmsBotUsers.txt', 'utf8')
     data = getArrayData(data)
-    console.log(chatId, "new Id")
+    console.log(msg, "msg")
     if (data && !data.includes(chatId.toString())) {
+        console.log(chatId, "new Id")
         fs.appendFileSync('bmsBotUsers.txt', `${chatId} `);
     }
     // send a message to the chat acknowledging receipt of their message
     bot.sendMessage(chatId, 'Will let you know when the tickets are available for Pushpa - The Rise at AMB Cinemas: Gachibowli on 18th Dec 2021');
 });
 
-//*/1 * * * *
+//run every minute
 const job = new CronJob('*/1 * * * *', function () {
     let data = fs.readFileSync('bmsBotUsers.txt', 'utf8')
     if(data){
@@ -32,11 +35,9 @@ const job = new CronJob('*/1 * * * *', function () {
             // handle success
             if (response.data.search("AMB Cinemas: Gachibowli") > 0) {
                 data = getArrayData(data)
-                console.log(response.data.search("AMB Cinemas: Gachibowli"), data)
                 for (const chatId of data) {
                     if (chatId) {
-                        console.log(chatId, "here")
-                        bot.sendMessage(chatId, 'Pushpa - The Rise tickets are available at AMB Cinemas: Gachibowl for 18th Dec 2021\n' +
+                        bot.sendMessage(chatId, 'Pushpa - The Rise tickets are available at AMB Cinemas: Gachibowli for 18th Dec 2021\n' +
                         'Book you tickets at https://in.bookmyshow.com/buytickets/pushpa-the-rise-hyderabad/movie-hyd-ET00129538-MT/20211218');
                     }
                 }
