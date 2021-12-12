@@ -1,0 +1,21 @@
+{
+  "name": "bms-avaialability",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bmsBot.js",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "cron": "^1.8.2",
+    "node-telegram-bot-api": "^0.56.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.heroku.com/bms-booking-availability.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
